@@ -279,31 +279,51 @@ public class MiscUtil {
 
 	public static <E> void iterateList(List<E> list, BiIntegerConsumer<E> consumer, BooleanSupplier continueCondition) {
 
-		ListIterator<E> listIterator = list.listIterator();
+		if (list instanceof RandomAccess) {
 
-		while (listIterator.hasNext() && continueCondition.getAsBoolean()) {
-			consumer.accept(listIterator.nextIndex(), listIterator.next());
+			for (int i = 0; i < list.size() && continueCondition.getAsBoolean(); i++) {
+				consumer.accept(i, list.get(i));
+			}
+
+		}
+
+		else {
+
+			ListIterator<E> listIterator = list.listIterator();
+
+			while (listIterator.hasNext() && continueCondition.getAsBoolean()) {
+				consumer.accept(listIterator.nextIndex(), listIterator.next());
+			}
+
 		}
 
 	}
 
 	public static <E> void iterateList(List<E> list, BiIntegerConsumer<E> consumer) {
-		iterateList(list, consumer, () -> true);
+		iterateList(list, consumer, BooleanSuppliers.ALWAYS_TRUE);
 	}
 
 	public static <E> void iterate(Iterable<E> iterable, BiIntegerConsumer<E> consumer, BooleanSupplier continueCondition) {
 
-		Iterator<E> iterator = iterable.iterator();
-		int index = 0;
+		if (iterable instanceof List<E> list) {
+			iterateList(list, consumer, continueCondition);
+		}
 
-		while (iterator.hasNext() && continueCondition.getAsBoolean()) {
-			consumer.accept(index++, iterator.next());
+		else {
+
+			Iterator<E> iterator = iterable.iterator();
+			int index = 0;
+
+			while (iterator.hasNext() && continueCondition.getAsBoolean()) {
+				consumer.accept(index++, iterator.next());
+			}
+
 		}
 
 	}
 
 	public static <E> void iterate(Iterable<E> iterable, BiIntegerConsumer<E> consumer) {
-		iterate(iterable, consumer, () -> true);
+		iterate(iterable, consumer, BooleanSuppliers.ALWAYS_TRUE);
 	}
 
 	public static <T, U extends T> Function<T, DataResult<U>> validateType(Class<U> typeClass, Supplier<String> errorSupplier) {
