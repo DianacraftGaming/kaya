@@ -12,8 +12,8 @@ import io.github.eggohito.neo_apoli.context.ContextValidator;
 import io.github.eggohito.neo_apoli.hud.element.NumberBoundHudElement;
 import io.github.eggohito.neo_apoli.provider.custom.bool.BooleanProvider;
 import io.github.eggohito.neo_apoli.provider.custom.bool.ConstantBooleanProvider;
-import io.github.eggohito.neo_apoli.provider.custom.number.IntProvider;
-import io.github.eggohito.neo_apoli.provider.custom.number.ints.ConstantIntProvider;
+import io.github.eggohito.neo_apoli.provider.custom.number.FloatProvider;
+import io.github.eggohito.neo_apoli.provider.custom.number.floats.ConstantFloatProvider;
 import io.github.eggohito.neo_apoli.registry.NeoApoliHudElementTypes;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -25,27 +25,27 @@ import org.quiltmc.parsers.json.JsonFormat;
 
 import java.util.Optional;
 
-public record ResourceBarHudElement(Properties properties, IntProvider x, IntProvider y, BooleanProvider shouldRender, Optional<IntProvider> value, Optional<IntProvider> min, Optional<IntProvider> max, int order) implements NumberBoundHudElement {
+public record ResourceBarHudElement(Properties properties, FloatProvider x, FloatProvider y, BooleanProvider shouldRender, Optional<FloatProvider> value, Optional<FloatProvider> min, Optional<FloatProvider> max, int order) implements NumberBoundHudElement {
 
 	public static final MapCodec<ResourceBarHudElement> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
 		Properties.MAP_CODEC.forGetter(ResourceBarHudElement::properties),
-		IntProvider.CODEC.optionalFieldOf("x", new ConstantIntProvider(0)).forGetter(ResourceBarHudElement::x),
-		IntProvider.CODEC.optionalFieldOf("y", new ConstantIntProvider(0)).forGetter(ResourceBarHudElement::y),
+		FloatProvider.CODEC.optionalFieldOf("x", new ConstantFloatProvider(0)).forGetter(ResourceBarHudElement::x),
+		FloatProvider.CODEC.optionalFieldOf("y", new ConstantFloatProvider(0)).forGetter(ResourceBarHudElement::y),
 		BooleanProvider.CODEC.optionalFieldOf("should_render", new ConstantBooleanProvider(true)).forGetter(ResourceBarHudElement::shouldRender),
-		IntProvider.CODEC.optionalFieldOf("value").forGetter(ResourceBarHudElement::value),
-		IntProvider.CODEC.optionalFieldOf("min").forGetter(ResourceBarHudElement::min),
-		IntProvider.CODEC.optionalFieldOf("max").forGetter(ResourceBarHudElement::max),
+		FloatProvider.CODEC.optionalFieldOf("value").forGetter(ResourceBarHudElement::value),
+		FloatProvider.CODEC.optionalFieldOf("min").forGetter(ResourceBarHudElement::min),
+		FloatProvider.CODEC.optionalFieldOf("max").forGetter(ResourceBarHudElement::max),
 		Codec.INT.optionalFieldOf("order", 0).forGetter(ResourceBarHudElement::order)
 	).apply(instance, ResourceBarHudElement::new));
 
 	public static final StreamCodec<RegistryFriendlyByteBuf, ResourceBarHudElement> STREAM_CODEC = StreamCodec.composite(
 		Properties.STREAM_CODEC, ResourceBarHudElement::properties,
-		IntProvider.STREAM_CODEC, ResourceBarHudElement::x,
-		IntProvider.STREAM_CODEC, ResourceBarHudElement::y,
+		FloatProvider.STREAM_CODEC, ResourceBarHudElement::x,
+		FloatProvider.STREAM_CODEC, ResourceBarHudElement::y,
 		BooleanProvider.STREAM_CODEC, ResourceBarHudElement::shouldRender,
-		ByteBufCodecs.optional(IntProvider.STREAM_CODEC), ResourceBarHudElement::value,
-		ByteBufCodecs.optional(IntProvider.STREAM_CODEC), ResourceBarHudElement::min,
-		ByteBufCodecs.optional(IntProvider.STREAM_CODEC), ResourceBarHudElement::max,
+		ByteBufCodecs.optional(FloatProvider.STREAM_CODEC), ResourceBarHudElement::value,
+		ByteBufCodecs.optional(FloatProvider.STREAM_CODEC), ResourceBarHudElement::min,
+		ByteBufCodecs.optional(FloatProvider.STREAM_CODEC), ResourceBarHudElement::max,
 		ByteBufCodecs.INT, ResourceBarHudElement::order,
 		ResourceBarHudElement::new
 	);
@@ -80,9 +80,9 @@ public record ResourceBarHudElement(Properties properties, IntProvider x, IntPro
 
 		Context minContext = context.forChild(".min");
 		float min = min()
-			.map(p -> p.getInt(minContext))
+			.map(p -> p.getFloat(minContext))
 			.or(() -> context.getOptional(MIN_VALUE))
-			.orElse(0);
+			.orElse(0.0F);
 
 		if (minContext.hasProblems()) {
 			return min;
@@ -90,18 +90,18 @@ public record ResourceBarHudElement(Properties properties, IntProvider x, IntPro
 
 		Context maxContext = context.forChild(".max");
 		float max = max()
-			.map(p -> p.getInt(maxContext))
+			.map(p -> p.getFloat(maxContext))
 			.or(() -> context.getOptional(MAX_VALUE))
-			.orElse(0);
+			.orElse(0.0F);
 
 		if (maxContext.hasProblems()) {
 			return min;
 		}
 
 		float value = value()
-			.map(p -> p.getInt(context.forChild(".value")))
+			.map(p -> p.getFloat(context.forChild(".value")))
 			.or(() -> context.getOptional(NumberBoundHudElement.CURRENT_VALUE))
-			.orElse(0);
+			.orElse(0.0F);
 
 		float fill = Mth.clamp((value - min) / (max - min), 0.0F, 1.0F);
 		return properties().inverted().getBoolean(context.forChild(".inverted"))
