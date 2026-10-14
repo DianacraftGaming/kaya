@@ -160,9 +160,9 @@ public record ResourceBarHudElement(Properties properties, FloatProvider x, Floa
 		public static final Config INSTANCE = new Config();
 		public static final int VERSION = 1;
 
+		public final ConfigEntry<Integer> version = register("version", VERSION, Codec.INT);
 		public final ConfigEntry<Integer> offsetX = register("offset_x", 0, Codec.INT);
 		public final ConfigEntry<Integer> offsetY = register("offset_y", 0, Codec.INT);
-		public final ConfigEntry<Integer> version = register("version", VERSION, Codec.INT);
 
 		Config() {
 			super(FabricLoader.getInstance().getConfigDir().resolve("neo-apoli/type/hud_element/resource_bar.json5"), JsonFormat.JSON5);
