@@ -13,7 +13,8 @@ import io.github.eggohito.neo_apoli.hud.element.NumberBoundHudElement;
 import io.github.eggohito.neo_apoli.provider.custom.bool.BooleanProvider;
 import io.github.eggohito.neo_apoli.provider.custom.bool.ConstantBooleanProvider;
 import io.github.eggohito.neo_apoli.provider.custom.number.FloatProvider;
-import io.github.eggohito.neo_apoli.provider.custom.number.floats.ConstantFloatProvider;
+import io.github.eggohito.neo_apoli.provider.custom.number.IntProvider;
+import io.github.eggohito.neo_apoli.provider.custom.number.ints.ConstantIntProvider;
 import io.github.eggohito.neo_apoli.registry.NeoApoliHudElementTypes;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -25,12 +26,12 @@ import org.quiltmc.parsers.json.JsonFormat;
 
 import java.util.Optional;
 
-public record ResourceBarHudElement(Properties properties, FloatProvider x, FloatProvider y, BooleanProvider shouldRender, Optional<FloatProvider> value, Optional<FloatProvider> min, Optional<FloatProvider> max, int order) implements NumberBoundHudElement {
+public record ResourceBarHudElement(Properties properties, IntProvider x, IntProvider y, BooleanProvider shouldRender, Optional<FloatProvider> value, Optional<FloatProvider> min, Optional<FloatProvider> max, int order) implements NumberBoundHudElement {
 
 	public static final MapCodec<ResourceBarHudElement> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
 		Properties.MAP_CODEC.forGetter(ResourceBarHudElement::properties),
-		FloatProvider.CODEC.optionalFieldOf("x", new ConstantFloatProvider(0)).forGetter(ResourceBarHudElement::x),
-		FloatProvider.CODEC.optionalFieldOf("y", new ConstantFloatProvider(0)).forGetter(ResourceBarHudElement::y),
+		IntProvider.CODEC.optionalFieldOf("x", new ConstantIntProvider(0)).forGetter(ResourceBarHudElement::x),
+		IntProvider.CODEC.optionalFieldOf("y", new ConstantIntProvider(0)).forGetter(ResourceBarHudElement::y),
 		BooleanProvider.CODEC.optionalFieldOf("should_render", new ConstantBooleanProvider(true)).forGetter(ResourceBarHudElement::shouldRender),
 		FloatProvider.CODEC.optionalFieldOf("value").forGetter(ResourceBarHudElement::value),
 		FloatProvider.CODEC.optionalFieldOf("min").forGetter(ResourceBarHudElement::min),
@@ -40,8 +41,8 @@ public record ResourceBarHudElement(Properties properties, FloatProvider x, Floa
 
 	public static final StreamCodec<RegistryFriendlyByteBuf, ResourceBarHudElement> STREAM_CODEC = StreamCodec.composite(
 		Properties.STREAM_CODEC, ResourceBarHudElement::properties,
-		FloatProvider.STREAM_CODEC, ResourceBarHudElement::x,
-		FloatProvider.STREAM_CODEC, ResourceBarHudElement::y,
+		IntProvider.STREAM_CODEC, ResourceBarHudElement::x,
+		IntProvider.STREAM_CODEC, ResourceBarHudElement::y,
 		BooleanProvider.STREAM_CODEC, ResourceBarHudElement::shouldRender,
 		ByteBufCodecs.optional(FloatProvider.STREAM_CODEC), ResourceBarHudElement::value,
 		ByteBufCodecs.optional(FloatProvider.STREAM_CODEC), ResourceBarHudElement::min,
