@@ -3,13 +3,13 @@ package io.github.eggohito.neo_apoli.color.custom.dynamic;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.github.eggohito.neo_apoli.color.DynamicColor;
-import io.github.eggohito.neo_apoli.color.custom.Argb;
 import io.github.eggohito.neo_apoli.context.Context;
 import io.github.eggohito.neo_apoli.context.ContextValidator;
 import io.github.eggohito.neo_apoli.provider.custom.number.FloatProvider;
 import io.github.eggohito.neo_apoli.registry.NeoApoliColorTypes;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.util.ARGB;
 
 public record DynamicRgba(FloatProvider red, FloatProvider green, FloatProvider blue, FloatProvider alpha) implements DynamicColor {
 
@@ -44,7 +44,7 @@ public record DynamicRgba(FloatProvider red, FloatProvider green, FloatProvider 
 
 	@Override
 	public int intValue(Context context) {
-		return new Argb(alpha(context), red(context), green(context), blue(context)).intValue(context);
+		return ARGB.colorFromFloat(alpha(context), red(context), green(context), blue(context));
 	}
 
 	public float red(Context context) {
