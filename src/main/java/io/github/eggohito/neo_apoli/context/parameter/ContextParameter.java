@@ -1,6 +1,7 @@
 package io.github.eggohito.neo_apoli.context.parameter;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import io.github.eggohito.neo_apoli.NeoApoli;
 import io.github.eggohito.neo_apoli.provider.ValueProvider;
 import io.github.eggohito.neo_apoli.registry.NeoApoliRegistries;
@@ -19,6 +20,12 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 public interface ContextParameter<T> {
+
+	MapCodec<ContextParameter<?>> MAP_CODEC = Type.CODEC.dispatchMap(ContextParameter::getType, type -> ResourceLocationUtil.codecWithDefaultNamespace(NeoApoli.MOD_NAMESPACE).fieldOf("name").xmap(type::create, ContextParameter::name));
+
+	Codec<ContextParameter<?>> CODEC = MAP_CODEC.codec();
+
+	StreamCodec<RegistryFriendlyByteBuf, ContextParameter<?>> STREAM_CODEC = Type.STREAM_CODEC.dispatch(ContextParameter::getType, Type::streamCodec);
 
 	ResourceLocation name();
 
