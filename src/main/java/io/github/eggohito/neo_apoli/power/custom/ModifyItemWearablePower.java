@@ -1,6 +1,7 @@
 package io.github.eggohito.neo_apoli.power.custom;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.github.eggohito.neo_apoli.NeoApoli;
@@ -34,7 +35,14 @@ public record ModifyItemWearablePower(EnumMap<EquipmentSlot, Condition> slots) i
 	public static final ClearableVisitor<Instance> VISITOR = ClearableVisitor.createThreadLocalized();
 	public static final ItemContextParameter WORN_ITEM = new ItemContextParameter(NeoApoli.id("worn_item"));
 
-	private static final Codec<EnumMap<EquipmentSlot, Condition>> SLOTS_CODEC = ExtraCodecs.nonEmptyMap(Codec.unboundedMap(EquipmentSlot.CODEC, Condition.CODEC)).xmap(EnumMap::new, Function.identity());
+	private static final Codec<EquipmentSlot> NO_MAINHAND_SLOT_CODEC = EquipmentSlot.CODEC.comapFlatMap(
+		slot -> slot == EquipmentSlot.MAINHAND
+			? DataResult.error(() -> "Equipment slot 'mainhand' is not allowed!")
+			: DataResult.success(slot),
+		Function.identity()
+	);
+
+	private static final Codec<EnumMap<EquipmentSlot, Condition>> SLOTS_CODEC = ExtraCodecs.nonEmptyMap(Codec.unboundedMap(NO_MAINHAND_SLOT_CODEC, Condition.CODEC)).xmap(EnumMap::new, Function.identity());
 	private static final StreamCodec<RegistryFriendlyByteBuf, EnumMap<EquipmentSlot, Condition>> SLOTS_STREAM_CODEC = ByteBufCodecs.map(ignored -> new EnumMap<>(EquipmentSlot.class), EquipmentSlot.STREAM_CODEC, Condition.STREAM_CODEC);
 
 	public static final MapCodec<ModifyItemWearablePower> CODEC = RecordCodecBuilder.mapCodec(instance -> instance
