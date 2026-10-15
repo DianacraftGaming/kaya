@@ -6,8 +6,8 @@ import io.github.eggohito.neo_apoli.command.ConditionCommand;
 import io.github.eggohito.neo_apoli.command.PowerCommand;
 import io.github.eggohito.neo_apoli.condition.manager.ConditionManager;
 import io.github.eggohito.neo_apoli.config.NeoApoliCommonConfig;
-import io.github.eggohito.neo_apoli.duck.internal.CommandStorageHolder;
 import io.github.eggohito.neo_apoli.duck.internal.PowerRecipeDisplayHolder;
+import io.github.eggohito.neo_apoli.duck.internal.ServerCommandStorageHolder;
 import io.github.eggohito.neo_apoli.integration.CommonConfigIntegrations;
 import io.github.eggohito.neo_apoli.integration.PowerIntegrations;
 import io.github.eggohito.neo_apoli.key.manager.KeyStateManager;
@@ -141,7 +141,7 @@ public class NeoApoli implements ModInitializer {
 		ServerLifecycleEvents.SERVER_STARTING.register(server -> NeoApoli.server = server);
 		ServerLifecycleEvents.SERVER_STOPPING.register(server -> NeoApoli.server = null);
 
-		ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> ((CommandStorageHolder) server).neo_apoli$sendAll(handler.getPlayer()));
+		ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> ((ServerCommandStorageHolder) server).neo_apoli$sendAll(handler.getPlayer()));
 		ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS.register((player, joined) -> ((PowerRecipeDisplayHolder) player.server.getRecipeManager()).neo_apoli$sendAll(player));
 
 		ServerLifecycleEvents.START_DATA_PACK_RELOAD.register((server, resourceManager) -> {
