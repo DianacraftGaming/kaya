@@ -422,7 +422,7 @@ public final class NeoApoliPowerTypes {
 		builder -> builder
 			.required(NeoApoliContextParameters.ACTOR_ENTITY)
 			.optional(NeoApoliContextParameters.TARGET_ENTITY)
-			.optional(NeoApoliContextParameters.BROKEN_BLOCK)
+			.optional(ReplaceLootTablePower.BLOCK)
 			.optional(ReplaceLootTablePower.TOOL_ITEM)
 	);
 
