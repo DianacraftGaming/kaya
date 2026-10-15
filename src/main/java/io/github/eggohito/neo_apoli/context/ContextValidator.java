@@ -51,7 +51,7 @@ public class ContextValidator {
 	}
 
 	public ContextValidator forChild(String path) {
-		return new ContextValidator(this.parameters(), this.reporter().forChild(path), this.resolver, this.visited);
+		return new ContextValidator(this.parameters(), this.reporter().forChild(path), this.resolver, new ObjectOpenHashSet<>());
 	}
 
 	public ContextValidator visitChild(String path, ResourceKey<?> key) {
