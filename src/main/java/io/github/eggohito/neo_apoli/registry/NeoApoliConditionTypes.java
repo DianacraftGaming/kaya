@@ -13,17 +13,20 @@ public final class NeoApoliConditionTypes {
 
 	public static final Condition.Type<AllOfCondition> ALL_OF = registerInternal("all_of", AllOfCondition.CODEC, AllOfCondition.STREAM_CODEC);
 	public static final Condition.Type<AnyOfCondition> ANY_OF = registerInternal("any_of", AnyOfCondition.CODEC, AnyOfCondition.STREAM_CODEC);
-	public static final Condition.Type<BlockStatePropertyCondition> BLOCK_STATE_PROPERTY = registerInternal("block_state_property", BlockStatePropertyCondition.CODEC, BlockStatePropertyCondition.STREAM_CODEC);
 	public static final Condition.Type<CompareCondition> COMPARE = registerInternal("compare", CompareCondition.CODEC, CompareCondition.STREAM_CODEC);
 	public static final Condition.Type<ConstantCondition> CONSTANT = registerInternal("constant", ConstantCondition.CODEC, ConstantCondition.STREAM_CODEC);
 	public static final Condition.Type<DifficultyCondition> DIFFICULTY = registerInternal("difficulty", DifficultyCondition.CODEC, DifficultyCondition.STREAM_CODEC);
 	public static final Condition.Type<DynamicCondition> DYNAMIC = registerInternal("dynamic", DynamicCondition.CODEC, DynamicCondition.STREAM_CODEC);
+	public static final Condition.Type<InvertedCondition> INVERTED = registerInternal("inverted", InvertedCondition.CODEC, InvertedCondition.STREAM_CODEC);
+	public static final Condition.Type<ParameterExistsCondition> PARAMETER_EXISTS = registerInternal("parameter_exists", ParameterExistsCondition.CODEC, ParameterExistsCondition.STREAM_CODEC);
+	public static final Condition.Type<ReferenceCondition> REFERENCE = registerInternal("reference", ReferenceCondition.CODEC, ReferenceCondition.STREAM_CODEC);
+
+	public static final Condition.Type<BlockStatePropertyCondition> BLOCK_STATE_PROPERTY = registerInternal("block_state_property", BlockStatePropertyCondition.CODEC, BlockStatePropertyCondition.STREAM_CODEC);
 	public static final Condition.Type<EntityHasActivePowerCondition> ENTITY_HAS_ACTIVE_POWER = registerInternal("entity_has_active_power", EntityHasActivePowerCondition.CODEC, EntityHasActivePowerCondition.STREAM_CODEC);
 	public static final Condition.Type<EntityHasCorrectToolForBlockCondition> ENTITY_HAS_CORRECT_TOOL_FOR_BLOCK = registerInternal("entity_has_correct_tool_for_block", EntityHasCorrectToolForBlockCondition.CODEC, EntityHasCorrectToolForBlockCondition.STREAM_CODEC);
 	public static final Condition.Type<EntityHasItemEquippedCondition> ENTITY_HAS_ITEM_EQUIPPED = registerInternal("entity_has_item_equipped", EntityHasItemEquippedCondition.CODEC, EntityHasItemEquippedCondition.STREAM_CODEC);
 	public static final Condition.Type<EntityHasPowerCondition> ENTITY_HAS_POWER = registerInternal("entity_has_power", EntityHasPowerCondition.CODEC, EntityHasPowerCondition.STREAM_CODEC);
 	public static final Condition.Type<EntityHasPressedKeysSimultaneouslyCondition> ENTITY_HAS_PRESSED_KEYS_SIMULTANEOUSLY = registerInternal("entity_has_pressed_keys_simultaneously", EntityHasPressedKeysSimultaneouslyCondition.CODEC, EntityHasPressedKeysSimultaneouslyCondition.STREAM_CODEC);
-	public static final Condition.Type<InvertedCondition> INVERTED = registerInternal("inverted", InvertedCondition.CODEC, InvertedCondition.STREAM_CODEC);
 	public static final Condition.Type<IsBlockEntityCondition> IS_BLOCK_ENTITY = registerInternal("is_block_entity", IsBlockEntityCondition.CODEC, IsBlockEntityCondition.STREAM_CODEC);
 	public static final Condition.Type<IsBlockInTagCondition> IS_BLOCK_IN_TAG = registerInternal("is_block_in_tag", IsBlockInTagCondition.CODEC, IsBlockInTagCondition.STREAM_CODEC);
 	public static final Condition.Type<IsBlockOfTypeCondition> IS_BLOCK_OF_TYPE = registerInternal("is_block_of_type", IsBlockOfTypeCondition.CODEC, IsBlockOfTypeCondition.STREAM_CODEC);
@@ -48,8 +51,6 @@ public final class NeoApoliConditionTypes {
 	public static final Condition.Type<ItemMatchesIngredientCondition> ITEM_MATCHES_INGREDIENT = registerInternal("item_matches_ingredient", ItemMatchesIngredientCondition.CODEC, ItemMatchesIngredientCondition.STREAM_CODEC);
 	public static final Condition.Type<ItemMatchesPredicateCondition> ITEM_MATCHES_PREDICATE = registerInternal("item_matches_predicate", ItemMatchesPredicateCondition.CODEC, ItemMatchesPredicateCondition.STREAM_CODEC);
 	public static final Condition.Type<MatchesBlockPatternCondition> MATCHES_BLOCK_PATTERN = registerInternal("matches_block_pattern", MatchesBlockPatternCondition.CODEC, MatchesBlockPatternCondition.STREAM_CODEC);
-	public static final Condition.Type<ParameterExistsCondition> PARAMETER_EXISTS = registerInternal("parameter_exists", ParameterExistsCondition.CODEC, ParameterExistsCondition.STREAM_CODEC);
-	public static final Condition.Type<ReferenceCondition> REFERENCE = registerInternal("reference", ReferenceCondition.CODEC, ReferenceCondition.STREAM_CODEC);
 
 	public static void registerAll() {
 
