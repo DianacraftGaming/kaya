@@ -23,7 +23,6 @@ public final class NeoApoliFloatProviderTypes {
 	public static final FloatProvider.Type<LinearInterpolatedFloatProvider> LINEAR_INTERPOLATED = registerInternal("linear_interpolated", LinearInterpolatedFloatProvider.CODEC, LinearInterpolatedFloatProvider.STREAM_CODEC);
 	public static final FloatProvider.Type<MaxFloatProvider> MAX = registerInternal("max", MaxFloatProvider.CODEC, MaxFloatProvider.STREAM_CODEC);
 	public static final FloatProvider.Type<MinFloatProvider> MIN = registerInternal("min", MinFloatProvider.CODEC, MinFloatProvider.STREAM_CODEC);
-	public static final FloatProvider.Type<NbtFloatProvider> NBT = registerInternal("nbt", NbtFloatProvider.CODEC, NbtFloatProvider.STREAM_CODEC);
 	public static final FloatProvider.Type<NegateFloatProvider> NEGATE = registerInternal("negate", NegateFloatProvider.CODEC, NegateFloatProvider.STREAM_CODEC);
 	public static final FloatProvider.Type<PowerFloatProvider> POWER = registerInternal("power", PowerFloatProvider.CODEC, PowerFloatProvider.STREAM_CODEC);
 	public static final FloatProvider.Type<ProductFloatProvider> PRODUCT = registerInternal("product", ProductFloatProvider.CODEC, ProductFloatProvider.STREAM_CODEC);
@@ -40,6 +39,7 @@ public final class NeoApoliFloatProviderTypes {
 	public static final FloatProvider.Type<EntityAttributeFloatProvider> ENTITY_ATTRIBUTE = registerInternal("entity/attribute", EntityAttributeFloatProvider.CODEC, EntityAttributeFloatProvider.STREAM_CODEC);
 	public static final FloatProvider.Type<EntityFluidHeightFloatProvider> ENTITY_FLUID_HEIGHT = registerInternal("entity/fluid_height", EntityFluidHeightFloatProvider.CODEC, EntityFluidHeightFloatProvider.STREAM_CODEC);
 	public static final FloatProvider.Type<ItemAttributeFloatProvider> ITEM_ATTRIBUTE = registerInternal("item/attribute", ItemAttributeFloatProvider.CODEC, ItemAttributeFloatProvider.STREAM_CODEC);
+	public static final FloatProvider.Type<NbtFloatProvider> NBT = registerInternal("nbt", NbtFloatProvider.CODEC, NbtFloatProvider.STREAM_CODEC);
 	public static final FloatProvider.Type<PlayerSaturationFloatProvider> PLAYER_SATURATION = registerInternal("player/saturation", PlayerSaturationFloatProvider.CODEC, PlayerSaturationFloatProvider.STREAM_CODEC);
 	public static final FloatProvider.Type<PowerCooldownProgressFloatProvider> POWER_COOLDOWN_PROGRESS = registerInternal("power/cooldown/progress", PowerCooldownProgressFloatProvider.CODEC, PowerCooldownProgressFloatProvider.STREAM_CODEC);
 	public static final FloatProvider.Type<VectorComponentFloatProvider> VECTOR_COMPONENT = registerInternal("vector/component", VectorComponentFloatProvider.CODEC, VectorComponentFloatProvider.STREAM_CODEC);

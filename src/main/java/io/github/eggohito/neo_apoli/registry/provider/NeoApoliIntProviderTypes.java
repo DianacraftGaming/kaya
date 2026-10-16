@@ -22,7 +22,6 @@ public final class NeoApoliIntProviderTypes {
 	public static final IntProvider.Type<FromFloatIntProvider> FROM_FLOAT = registerInternal("from_float", FromFloatIntProvider.CODEC, FromFloatIntProvider.STREAM_CODEC);
 	public static final IntProvider.Type<MaxIntProvider> MAX = registerInternal("max", MaxIntProvider.CODEC, MaxIntProvider.STREAM_CODEC);
 	public static final IntProvider.Type<MinIntProvider> MIN = registerInternal("min", MinIntProvider.CODEC, MinIntProvider.STREAM_CODEC);
-	public static final IntProvider.Type<NbtIntProvider> NBT = registerInternal("nbt", NbtIntProvider.CODEC, NbtIntProvider.STREAM_CODEC);
 	public static final IntProvider.Type<NegateIntProvider> NEGATE = registerInternal("negate", NegateIntProvider.CODEC, NegateIntProvider.STREAM_CODEC);
 	public static final IntProvider.Type<ProductIntProvider> PRODUCT = registerInternal("product", ProductIntProvider.CODEC, ProductIntProvider.STREAM_CODEC);
 	public static final IntProvider.Type<QuotientIntProvider> QUOTIENT = registerInternal("quotient", QuotientIntProvider.CODEC, QuotientIntProvider.STREAM_CODEC);
@@ -45,6 +44,7 @@ public final class NeoApoliIntProviderTypes {
 	public static final IntProvider.Type<KeyPressedTicksIntProvider> KEY_PRESSED_TICKS = registerInternal("key/pressed_ticks", KeyPressedTicksIntProvider.CODEC, KeyPressedTicksIntProvider.STREAM_CODEC);
 	public static final IntProvider.Type<KeyPressedTimeIntProvider> KEY_PRESSED_TIME = registerInternal("key/pressed_time", KeyPressedTimeIntProvider.CODEC, KeyPressedTimeIntProvider.STREAM_CODEC);
 	public static final IntProvider.Type<LightLevelIntProvider> LIGHT_LEVEL = registerInternal("light_level", LightLevelIntProvider.CODEC, LightLevelIntProvider.STREAM_CODEC);
+	public static final IntProvider.Type<NbtIntProvider> NBT = registerInternal("nbt", NbtIntProvider.CODEC, NbtIntProvider.STREAM_CODEC);
 	public static final IntProvider.Type<PlayerFoodIntProvider> PLAYER_FOOD = registerInternal("player/food", PlayerFoodIntProvider.CODEC, PlayerFoodIntProvider.STREAM_CODEC);
 	public static final IntProvider.Type<PowerCooldownRemainingTicksIntProvider> POWER_COOLDOWN_REMAINING_TICKS = registerInternal("power/cooldown/remaining_ticks", PowerCooldownRemainingTicksIntProvider.CODEC, PowerCooldownRemainingTicksIntProvider.STREAM_CODEC);
 	public static final IntProvider.Type<SlotIdIntProvider> SLOT_ID = registerInternal("slot_id", SlotIdIntProvider.CODEC, SlotIdIntProvider.STREAM_CODEC);
