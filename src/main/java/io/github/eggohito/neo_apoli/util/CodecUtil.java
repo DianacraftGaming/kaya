@@ -2,7 +2,6 @@ package io.github.eggohito.neo_apoli.util;
 
 import com.google.common.base.Suppliers;
 import com.google.common.collect.BiMap;
-import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableMap;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
@@ -19,7 +18,10 @@ import net.minecraft.util.StringRepresentable;
 import java.util.Collection;
 import java.util.Locale;
 import java.util.Set;
-import java.util.function.*;
+import java.util.function.Function;
+import java.util.function.IntFunction;
+import java.util.function.Supplier;
+import java.util.function.ToIntFunction;
 
 public class CodecUtil {
 
@@ -58,15 +60,6 @@ public class CodecUtil {
 
 	public static <E> Codec<E> mapped(BiMap<String, E> map) {
 		return mapped(Suppliers.memoize(() -> map));
-	}
-
-	public static <E> Codec<E> mapped(Consumer<ImmutableBiMap.Builder<String, E>> consumer) {
-
-		ImmutableBiMap.Builder<String, E> builder = ImmutableBiMap.builder();
-		consumer.accept(builder);
-
-		return mapped(builder.build());
-
 	}
 
 	public static <E extends Enum<E>> Codec<E> enumType(Class<E> enumClass) {
