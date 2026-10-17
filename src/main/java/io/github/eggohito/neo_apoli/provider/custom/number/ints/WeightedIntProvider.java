@@ -19,7 +19,7 @@ import java.util.Optional;
 public record WeightedIntProvider(WeightedList<IntProvider> entries) implements IntProvider {
 
 	public static final MapCodec<WeightedIntProvider> CODEC = MapCodecUtil.lazy(WeightedIntProvider.class.getSimpleName(), () -> RecordCodecBuilder.mapCodec(instance -> instance
-		.group(WeightedList.codec(IntProvider.CODEC).fieldOf("entries").forGetter(WeightedIntProvider::entries))
+		.group(WeightedList.codec(IntProvider.CODEC.fieldOf("value")).fieldOf("entries").forGetter(WeightedIntProvider::entries))
 		.apply(instance, WeightedIntProvider::new)
 	));
 
