@@ -65,7 +65,7 @@ public interface NbtNumberProvider<N extends Number> extends ValueProvider<N> {
 
 			}
 
-			else if (size > 1) {
+			else {
 				return Optional.of(other.apply(path().countMatching(source)));
 			}
 
