@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 
 public interface EffectProvider extends ValueProvider<MobEffectInstance> {
 
-	Codec<EffectProvider> CODEC = Codec.lazyInitialized(() -> new MultiAlternativeCodec<>(Type.CODEC.dispatch(EffectProvider::getType, Type::mapCodec), ContextEffectProvider.INLINE_CODEC));
+	Codec<EffectProvider> CODEC = Codec.lazyInitialized(() -> new MultiAlternativeCodec<>(Type.CODEC.dispatch(EffectProvider::getType, Type::mapCodec), ContextEffectProvider.INLINE_CODEC, ConstantEffectProvider.INLINE_CODEC));
 
 	StreamCodec<RegistryFriendlyByteBuf, EffectProvider> STREAM_CODEC = Type.STREAM_CODEC.dispatch(EffectProvider::getType, Type::streamCodec);
 
