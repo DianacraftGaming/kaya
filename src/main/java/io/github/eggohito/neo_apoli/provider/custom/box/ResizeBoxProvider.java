@@ -14,29 +14,29 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-public record OffsetBoxProvider(BoxProvider box, BoxProvider offset) implements BoxProvider {
+public record ResizeBoxProvider(BoxProvider box, BoxProvider offset) implements BoxProvider {
 
-	public static final MapCodec<OffsetBoxProvider> CODEC = MapCodecUtil.lazy(OffsetBoxProvider.class.getSimpleName(), () -> RecordCodecBuilder.mapCodec(instance -> instance.group(
-		BoxProvider.CODEC.fieldOf("box").forGetter(OffsetBoxProvider::box),
-		BoxProvider.CODEC.fieldOf("offset").forGetter(OffsetBoxProvider::offset)
-	).apply(instance, OffsetBoxProvider::new)));
+	public static final MapCodec<ResizeBoxProvider> CODEC = MapCodecUtil.lazy(ResizeBoxProvider.class.getSimpleName(), () -> RecordCodecBuilder.mapCodec(instance -> instance.group(
+		BoxProvider.CODEC.fieldOf("box").forGetter(ResizeBoxProvider::box),
+		BoxProvider.CODEC.fieldOf("offset").forGetter(ResizeBoxProvider::offset)
+	).apply(instance, ResizeBoxProvider::new)));
 
-	public static final StreamCodec<RegistryFriendlyByteBuf, OffsetBoxProvider> STREAM_CODEC = StreamCodecUtil.lazy(OffsetBoxProvider.class.getSimpleName(), () -> StreamCodec.composite(
-		BoxProvider.STREAM_CODEC, OffsetBoxProvider::box,
-		BoxProvider.STREAM_CODEC, OffsetBoxProvider::offset,
-		OffsetBoxProvider::new
+	public static final StreamCodec<RegistryFriendlyByteBuf, ResizeBoxProvider> STREAM_CODEC = StreamCodecUtil.lazy(ResizeBoxProvider.class.getSimpleName(), () -> StreamCodec.composite(
+		BoxProvider.STREAM_CODEC, ResizeBoxProvider::box,
+		BoxProvider.STREAM_CODEC, ResizeBoxProvider::offset,
+		ResizeBoxProvider::new
 	));
 
 	@Override
 	public @NotNull BoxProvider.Type<?> getType() {
-		return NeoApoliBoxProviderTypes.OFFSET;
+		return NeoApoliBoxProviderTypes.RESIZE;
 	}
 
 	@Override
 	public Optional<AABB> getValue(Context context) {
 		return box().getValue(context.forChild(".box"))
 			.flatMap(box -> offset().getValue(context.forChild(".offset"))
-				.map(offset -> this.offset(box, offset)));
+				.map(offset -> this.resize(box, offset)));
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public record OffsetBoxProvider(BoxProvider box, BoxProvider offset) implements 
 
 	}
 
-	private AABB offset(AABB box, AABB offset) {
+	private AABB resize(AABB box, AABB offset) {
 		return new AABB(
 			box.minX + offset.minX,
 			box.minY + offset.minY,
