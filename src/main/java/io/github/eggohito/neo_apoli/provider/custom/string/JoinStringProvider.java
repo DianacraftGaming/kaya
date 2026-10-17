@@ -80,6 +80,7 @@ public record JoinStringProvider(List<StringProvider> strings, StringProvider se
 	public void validate(ContextValidator validator) {
 		StringProvider.super.validate(validator);
 		ContextValidatable.validate(strings(), validator, index -> ".strings[" + index + "]");
+		separator().validate(validator.forChild(".separator"));
 	}
 
 }
