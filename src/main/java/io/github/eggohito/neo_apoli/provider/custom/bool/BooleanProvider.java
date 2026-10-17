@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 
 public interface BooleanProvider extends ValueProvider<Boolean> {
 
-	Codec<BooleanProvider> CODEC = Codec.lazyInitialized(() -> new MultiAlternativeCodec<>(Type.CODEC.dispatch(BooleanProvider::getType, Type::mapCodec), ConstantBooleanProvider.INLINE_CODEC));
+	Codec<BooleanProvider> CODEC = Codec.lazyInitialized(() -> new MultiAlternativeCodec<>(Type.CODEC.dispatch(BooleanProvider::getType, Type::mapCodec), ContextBooleanProvider.INLINE_CODEC, ConstantBooleanProvider.INLINE_CODEC));
 
 	StreamCodec<RegistryFriendlyByteBuf, BooleanProvider> STREAM_CODEC = Type.STREAM_CODEC.dispatch(BooleanProvider::getType, Type::streamCodec);
 

@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 
 public interface NbtProvider extends ValueProvider<Tag> {
 
-	Codec<NbtProvider> CODEC = Codec.lazyInitialized(() -> new MultiAlternativeCodec<>(Type.CODEC.dispatch(NbtProvider::getType, Type::mapCodec), ConstantNbtProvider.INLINE_CODEC));
+	Codec<NbtProvider> CODEC = Codec.lazyInitialized(() -> new MultiAlternativeCodec<>(Type.CODEC.dispatch(NbtProvider::getType, Type::mapCodec), ContextNbtProvider.INLINE_CODEC, ConstantNbtProvider.INLINE_CODEC));
 
 	StreamCodec<RegistryFriendlyByteBuf, NbtProvider> STREAM_CODEC = Type.STREAM_CODEC.dispatch(NbtProvider::getType, Type::streamCodec);
 

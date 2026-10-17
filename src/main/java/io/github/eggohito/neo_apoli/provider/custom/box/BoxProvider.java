@@ -18,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
 
 public interface BoxProvider extends ValueProvider<AABB> {
 
-	Codec<BoxProvider> CODEC = Codec.lazyInitialized(() -> new MultiAlternativeCodec<>(Type.CODEC.dispatch(BoxProvider::getType, Type::mapCodec), ConstantBoxProvider.INLINE_CODEC));
+	Codec<BoxProvider> CODEC = Codec.lazyInitialized(() -> new MultiAlternativeCodec<>(Type.CODEC.dispatch(BoxProvider::getType, Type::mapCodec), ContextBoxProvider.INLINE_CODEC, ConstantBoxProvider.INLINE_CODEC));
 
 	StreamCodec<RegistryFriendlyByteBuf, BoxProvider> STREAM_CODEC = Type.STREAM_CODEC.dispatch(BoxProvider::getType, Type::streamCodec);
 
