@@ -15,6 +15,7 @@ public final class NeoApoliEffectProviderTypes {
 	public static final EffectProvider.Type<ConditionalEffectProvider> CONDITIONAL = registerInternal("conditional", ConditionalEffectProvider.CODEC, ConditionalEffectProvider.STREAM_CODEC);
 	public static final EffectProvider.Type<ConstantEffectProvider> CONSTANT = registerInternal("constant", ConstantEffectProvider.CODEC, ConstantEffectProvider.STREAM_CODEC);
 	public static final EffectProvider.Type<ContextEffectProvider> CONTEXT = registerInternal("context", ContextEffectProvider.CODEC, ContextEffectProvider.STREAM_CODEC);
+	public static final EffectProvider.Type<WeightedEffectProvider> WEIGHTED = registerInternal("weighted", WeightedEffectProvider.CODEC, WeightedEffectProvider.STREAM_CODEC);
 
 	public static void registerAll() {
 

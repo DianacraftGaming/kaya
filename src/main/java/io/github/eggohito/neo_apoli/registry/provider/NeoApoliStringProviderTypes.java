@@ -17,6 +17,7 @@ public final class NeoApoliStringProviderTypes {
 	public static final StringProvider.Type<ContextStringProvider> CONTEXT = registerInternal("context", ContextStringProvider.CODEC, ContextStringProvider.STREAM_CODEC);
 	public static final StringProvider.Type<EscapeStringProvider> ESCAPE = registerInternal("escape", EscapeStringProvider.CODEC, EscapeStringProvider.STREAM_CODEC);
 	public static final StringProvider.Type<JoinStringProvider> JOIN = registerInternal("join", JoinStringProvider.CODEC, JoinStringProvider.STREAM_CODEC);
+	public static final StringProvider.Type<WeightedStringProvider> WEIGHTED = registerInternal("weighted", WeightedStringProvider.CODEC, WeightedStringProvider.STREAM_CODEC);
 
 	public static final StringProvider.Type<EntityUuidStringProvider> ENTITY_UUID = registerInternal("entity/uuid", EntityUuidStringProvider.CODEC, EntityUuidStringProvider.STREAM_CODEC);
 	public static final StringProvider.Type<FromFloatStringProvider> FROM_FLOAT = registerInternal("from_float", FromFloatStringProvider.CODEC, FromFloatStringProvider.STREAM_CODEC);
