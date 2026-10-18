@@ -94,7 +94,7 @@ public class Reporter implements ProblemReporter {
 		List<String> lines = new ObjectArrayList<>();
 
 		//noinspection UnstableApiUsage
-		switch (NeoApoliCommonConfig.INSTANCE.reporterDisplay.get()) {
+		switch (NeoApoliCommonConfig.INSTANCE.reporter.get().treeDisplay()) {
 			case COMPACT -> {
 
 				List<Reporter> nodes = Util.make(this.getFlattenedChildren(), list -> list.addFirst(this));
@@ -126,7 +126,7 @@ public class Reporter implements ProblemReporter {
 					else {
 
 						for (var problem : problems) {
-							line.append("\n").append("    * ").append(problem);
+							line.append("\n").append("      * ").append(problem);
 						}
 
 					}
@@ -223,12 +223,12 @@ public class Reporter implements ProblemReporter {
 
 	}
 
-	public enum DisplayType {
+	public enum TreeDisplay {
 
 		COMPACT,
 		EXPANDED;
 
-		public static final Codec<DisplayType> CODEC = CodecUtil.enumType(DisplayType.class);
+		public static final Codec<TreeDisplay> CODEC = CodecUtil.enumType(TreeDisplay.class);
 
 	}
 

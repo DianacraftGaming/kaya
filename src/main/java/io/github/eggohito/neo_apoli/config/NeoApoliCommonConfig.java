@@ -23,7 +23,7 @@ public final class NeoApoliCommonConfig extends AbstractJsonCodecConfig<NeoApoli
 	public final ConfigEntry<TriState> performHandshake = register("perform_handshake", TriState.DEFAULT, Codec.lazyInitialized(() -> NeoApoliCodecs.TRI_STATE));
 	public final ConfigEntry<Command> command = register("command", Command.DEFAULT, Command.CODEC);
 	public final ConfigEntry<PlaceholderIdentifier> placeholderIdentifier = register("placeholder_identifier", PlaceholderIdentifier.DEFAULT, PlaceholderIdentifier.CODEC);
-	public final ConfigEntry<Reporter.DisplayType> reporterDisplay = register("reporter_display", Reporter.DisplayType.EXPANDED, Reporter.DisplayType.CODEC);
+	public final ConfigEntry<ReporterConfig> reporter = register("reporter", ReporterConfig.DEFAULT, ReporterConfig.CODEC);
 
 	private NeoApoliCommonConfig() {
 		super(FabricLoader.getInstance().getConfigDir().resolve("neo-apoli/common.json5"), JsonFormat.JSON5);
@@ -66,6 +66,22 @@ public final class NeoApoliCommonConfig extends AbstractJsonCodecConfig<NeoApoli
 		);
 
 		private boolean enabled;
+
+	}
+
+	@AllArgsConstructor
+	@Accessors(fluent = true)
+	@Data
+	public static final class ReporterConfig {
+
+		public static final ReporterConfig DEFAULT = new ReporterConfig(Reporter.TreeDisplay.EXPANDED);
+
+		public static final Codec<ReporterConfig> CODEC = RecordCodecBuilder.create(instance -> instance
+			.group(Reporter.TreeDisplay.CODEC.fieldOf("tree_display").forGetter(ReporterConfig::treeDisplay))
+			.apply(instance, ReporterConfig::new)
+		);
+
+		private Reporter.TreeDisplay treeDisplay;
 
 	}
 
