@@ -159,9 +159,7 @@ public record ResourceBarHudElement(Properties properties, IntProvider x, IntPro
 	public static final class Config extends AbstractJsonCodecConfig<Config> {
 
 		public static final Config INSTANCE = new Config();
-		public static final int VERSION = 1;
 
-		public final ConfigEntry<Integer> version = register("version", VERSION, Codec.INT);
 		public final ConfigEntry<Integer> offsetX = register("offset_x", 0, Codec.INT);
 		public final ConfigEntry<Integer> offsetY = register("offset_y", 0, Codec.INT);
 

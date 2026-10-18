@@ -219,9 +219,7 @@ public record ModifyPlayerSpawnPower(Optional<Condition> activeCondition, Resour
 	public static final class Config extends AbstractJsonCodecConfig<Config> {
 
 		public static final Config INSTANCE = new Config();
-		public static final int VERSION = 1;
 
-		public final ConfigEntry<Integer> version = register("version", VERSION, Codec.INT);
 		public final ConfigEntry<Integer> horizontalStep = register("horizontal_step", 64, ExtraCodecs.NON_NEGATIVE_INT);
 		public final ConfigEntry<Integer> verticalStep = register("vertical_step", 64, ExtraCodecs.NON_NEGATIVE_INT);
 		public final ConfigEntry<Integer> radius = register("radius", 6400, ExtraCodecs.NON_NEGATIVE_INT);

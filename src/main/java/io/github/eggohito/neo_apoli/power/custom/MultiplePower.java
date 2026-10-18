@@ -258,9 +258,7 @@ public record MultiplePower(ImmutableSet<PowerHolder<?>> subPowers) implements P
 	public static final class Config extends AbstractJsonCodecConfig<Config> {
 
 		public static final Config INSTANCE = new Config();
-		public static final int VERSION = 1;
 
-		public final ConfigEntry<Integer> version = register("version", VERSION, Codec.INT);
 		public final ConfigEntry<List<Pattern>> ignoredFields = register("ignored_fields", makeDefaultIgnoredFields(), ExtraCodecs.PATTERN.listOf());
 
 		Config() {

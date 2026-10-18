@@ -19,9 +19,7 @@ import org.quiltmc.parsers.json.JsonFormat;
 public final class NeoApoliCommonConfig extends AbstractJsonCodecConfig<NeoApoliCommonConfig> {
 
 	public static final NeoApoliCommonConfig INSTANCE = new NeoApoliCommonConfig();
-	public static final int VERSION = 1;
 
-	public final ConfigEntry<Integer> version = register("version", VERSION, Codec.INT);
 	public final ConfigEntry<TriState> performHandshake = register("perform_handshake", TriState.DEFAULT, Codec.lazyInitialized(() -> NeoApoliCodecs.TRI_STATE));
 	public final ConfigEntry<Command> command = register("command", Command.DEFAULT, Command.CODEC);
 	public final ConfigEntry<PlaceholderIdentifier> placeholderIdentifier = register("placeholder_identifier", PlaceholderIdentifier.DEFAULT, PlaceholderIdentifier.CODEC);
