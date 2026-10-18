@@ -5,6 +5,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.isxander.yacl3.config.v3.ConfigEntry;
 import io.github.eggohito.neo_apoli.codec.NeoApoliCodecs;
 import io.github.eggohito.neo_apoli.mixin.access.CommandSourceStackAccessor;
+import io.github.eggohito.neo_apoli.util.Reporter;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -24,6 +25,7 @@ public final class NeoApoliCommonConfig extends AbstractJsonCodecConfig<NeoApoli
 	public final ConfigEntry<TriState> performHandshake = register("perform_handshake", TriState.DEFAULT, Codec.lazyInitialized(() -> NeoApoliCodecs.TRI_STATE));
 	public final ConfigEntry<Command> command = register("command", Command.DEFAULT, Command.CODEC);
 	public final ConfigEntry<PlaceholderIdentifier> placeholderIdentifier = register("placeholder_identifier", PlaceholderIdentifier.DEFAULT, PlaceholderIdentifier.CODEC);
+	public final ConfigEntry<Reporter.DisplayType> reporterDisplay = register("reporter_display", Reporter.DisplayType.EXPANDED, Reporter.DisplayType.CODEC);
 
 	private NeoApoliCommonConfig() {
 		super(FabricLoader.getInstance().getConfigDir().resolve("neo-apoli/common.json5"), JsonFormat.JSON5);

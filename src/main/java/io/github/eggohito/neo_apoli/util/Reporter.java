@@ -1,7 +1,10 @@
 package io.github.eggohito.neo_apoli.util;
 
+import com.mojang.serialization.Codec;
+import io.github.eggohito.neo_apoli.config.NeoApoliCommonConfig;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet;
+import net.minecraft.Util;
 import net.minecraft.util.ProblemReporter;
 import org.apache.commons.lang3.function.Consumers;
 import org.jetbrains.annotations.NotNull;
@@ -89,26 +92,88 @@ public class Reporter implements ProblemReporter {
 	public List<String> getTreeReport() {
 
 		List<String> lines = new ObjectArrayList<>();
-		boolean oneLined = false, prependPath = false;
 
-		if (this.problems.size() == 1 && !this.path.isEmpty()) {
-			oneLined = lines.add(this.indent(this.getPathForTree() + ": " + this.problems.iterator().next()));
-		}
+		//noinspection UnstableApiUsage
+		switch (NeoApoliCommonConfig.INSTANCE.reporterDisplay.get()) {
+			case COMPACT -> {
 
-		else {
+				List<Reporter> nodes = Util.make(this.getFlattenedChildren(), list -> list.addFirst(this));
+				StringBuilder line = new StringBuilder();
 
-			for (var problem : this.problems) {
-				lines.add(this.indent("    * " + problem));
+				for (var node : nodes) {
+
+					String fullPath = node.fullPath;
+					Set<String> problems = node.problems;
+
+					if (problems.isEmpty()) {
+						continue;
+					}
+
+					if (!line.isEmpty()) {
+						line.append("\n");
+					}
+
+					if (nodes.size() > 1) {
+						line.append("  - ");
+					}
+
+					line.append(fullPath).append(": ");
+
+					if (problems.size() == 1) {
+						line.append(problems.iterator().next());
+					}
+
+					else {
+
+						for (var problem : problems) {
+							line.append("\n").append("    * ").append(problem);
+						}
+
+					}
+
+				}
+
+				if (!line.isEmpty()) {
+					lines.add(line.toString());
+				}
+
 			}
+			case EXPANDED -> {
 
-		}
+				String path = this.getPathForTree();
+				boolean prepend = false;
 
-		for (var child : this.children) {
-			prependPath |= lines.addAll(child.getTreeReport());
-		}
+				if (this.problems.size() == 1) {
 
-		if (!oneLined && prependPath && !this.path.isEmpty()) {
-			lines.addFirst(this.indent(this.getPathForTree() + ": "));
+					String problem = this.problems.iterator().next();
+
+					if (this.path.isEmpty()) {
+						lines.add(problem);
+					}
+
+					else {
+						lines.add(this.indent(path + ": " + problem));
+					}
+
+				}
+
+				else {
+
+					for (var problem : this.problems) {
+						prepend |= lines.add(this.indent("    * " + problem));
+					}
+
+				}
+
+				for (var child : this.children) {
+					prepend |= lines.addAll(child.getTreeReport());
+				}
+
+				if (prepend && !this.path.isEmpty()) {
+					lines.addFirst(this.indent(path + ": "));
+				}
+
+			}
 		}
 
 		return lines;
@@ -143,6 +208,28 @@ public class Reporter implements ProblemReporter {
 
 	protected String getPathForTree() {
 		return this.depth > 0 ? "|-" + this.path : this.path;
+	}
+
+	protected List<Reporter> getFlattenedChildren() {
+
+		List<Reporter> result = new ObjectArrayList<>();
+
+		for (var child : this.children) {
+			result.add(child);
+			result.addAll(child.getFlattenedChildren());
+		}
+
+		return result;
+
+	}
+
+	public enum DisplayType {
+
+		COMPACT,
+		EXPANDED;
+
+		public static final Codec<DisplayType> CODEC = CodecUtil.enumType(DisplayType.class);
+
 	}
 
 	public static class Scoped extends Reporter implements AutoCloseable {
