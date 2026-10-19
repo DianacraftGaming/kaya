@@ -35,7 +35,7 @@ public final class NeoApoliFloatProviderTypes {
 	public static final FloatProvider.Type<BoxComponentFloatProvider> BOX_COMPONENT = registerInternal("box/component", BoxComponentFloatProvider.CODEC, BoxComponentFloatProvider.STREAM_CODEC);
 	public static final FloatProvider.Type<BoxSizeFloatProvider> BOX_SIZE = registerInternal("box/size", BoxSizeFloatProvider.CODEC, BoxSizeFloatProvider.STREAM_CODEC);
 	public static final FloatProvider.Type<BrightnessFloatProvider> BRIGHTNESS = registerInternal("brightness", BrightnessFloatProvider.CODEC, BrightnessFloatProvider.STREAM_CODEC);
-	public static final FloatProvider.Type<DistanceBetweenPositionsFloatProvider> DISTANCE_BETWEEN_POSITIONS = registerInternal("distance_between_positions", DistanceBetweenPositionsFloatProvider.CODEC, DistanceBetweenPositionsFloatProvider.STREAM_CODEC);
+	public static final FloatProvider.Type<DistanceBetweenVectorsFloatProvider> DISTANCE_BETWEEN_VECTORS = registerInternal("distance_between_vectors", DistanceBetweenVectorsFloatProvider.CODEC, DistanceBetweenVectorsFloatProvider.STREAM_CODEC);
 	public static final FloatProvider.Type<EntityAttributeFloatProvider> ENTITY_ATTRIBUTE = registerInternal("entity/attribute", EntityAttributeFloatProvider.CODEC, EntityAttributeFloatProvider.STREAM_CODEC);
 	public static final FloatProvider.Type<EntityFluidHeightFloatProvider> ENTITY_FLUID_HEIGHT = registerInternal("entity/fluid_height", EntityFluidHeightFloatProvider.CODEC, EntityFluidHeightFloatProvider.STREAM_CODEC);
 	public static final FloatProvider.Type<ItemAttributeFloatProvider> ITEM_ATTRIBUTE = registerInternal("item/attribute", ItemAttributeFloatProvider.CODEC, ItemAttributeFloatProvider.STREAM_CODEC);
