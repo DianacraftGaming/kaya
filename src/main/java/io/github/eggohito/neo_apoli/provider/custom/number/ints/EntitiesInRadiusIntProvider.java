@@ -2,14 +2,14 @@ package io.github.eggohito.neo_apoli.provider.custom.number.ints;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import io.github.eggohito.neo_apoli.NeoApoli;
 import io.github.eggohito.neo_apoli.condition.Condition;
-import io.github.eggohito.neo_apoli.condition.custom.ConstantCondition;
 import io.github.eggohito.neo_apoli.context.Context;
 import io.github.eggohito.neo_apoli.context.ContextValidator;
+import io.github.eggohito.neo_apoli.context.parameter.EntityContextParameter;
 import io.github.eggohito.neo_apoli.provider.custom.number.FloatProvider;
 import io.github.eggohito.neo_apoli.provider.custom.number.IntProvider;
 import io.github.eggohito.neo_apoli.provider.custom.vec3.Vec3Provider;
-import io.github.eggohito.neo_apoli.registry.context.NeoApoliContextParameters;
 import io.github.eggohito.neo_apoli.registry.provider.NeoApoliIntProviderTypes;
 import io.github.eggohito.neo_apoli.util.Shape;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -24,12 +24,11 @@ import java.util.Optional;
 
 public record EntitiesInRadiusIntProvider(Condition condition, Vec3Provider position, Shape shape, FloatProvider radius) implements IntProvider {
 
-	private static final ContextValidator.Parameters CONDITION_PARAMETER_SET = new ContextValidator.Parameters.Builder()
-		.required(NeoApoliContextParameters.TARGET_ENTITY)
-		.build();
+	public static final EntityContextParameter ENTITY_IN_RADIUS = new EntityContextParameter(NeoApoli.id("entity_in_radius"));
+	public static final ContextValidator.Parameters CONDITION_PARAMETER_SET = new ContextValidator.Parameters.Builder().required(ENTITY_IN_RADIUS).build();
 
 	public static final MapCodec<EntitiesInRadiusIntProvider> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-		Condition.CODEC.optionalFieldOf("condition", new ConstantCondition(true)).forGetter(EntitiesInRadiusIntProvider::condition),
+		Condition.CODEC.fieldOf("condition").forGetter(EntitiesInRadiusIntProvider::condition),
 		Vec3Provider.CODEC.fieldOf("position").forGetter(EntitiesInRadiusIntProvider::position),
 		Shape.CODEC.fieldOf("shape").forGetter(EntitiesInRadiusIntProvider::shape),
 		FloatProvider.CODEC.fieldOf("radius").forGetter(EntitiesInRadiusIntProvider::radius)
@@ -68,7 +67,7 @@ public record EntitiesInRadiusIntProvider(Condition condition, Vec3Provider posi
 		for (var target : targets) {
 
 			Context entityContext = new Context.Builder(context)
-				.withRequired(NeoApoliContextParameters.TARGET_ENTITY, target)
+				.withRequired(ENTITY_IN_RADIUS, target)
 				.build(level);
 
 			if (condition().test(entityContext.forChild(".condition"))) {
