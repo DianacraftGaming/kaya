@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 
+@SuppressWarnings("UnstableApiUsage")
 public class Reporter implements ProblemReporter {
 
 	public static Reporter NO_OP = new Reporter() {
@@ -90,14 +91,64 @@ public class Reporter implements ProblemReporter {
 	}
 
 	public List<String> getTreeReport() {
+		return this.getRoot().getTreeReportInternal();
+	}
 
-		List<String> lines = new ObjectArrayList<>();
+	public String getReport() {
+		return String.join("\n", this.getTreeReport());
+	}
 
-		//noinspection UnstableApiUsage
-		switch (NeoApoliCommonConfig.INSTANCE.reporter.get().treeDisplay()) {
-			case COMPACT -> {
+	public boolean hasProblems() {
 
-				List<Reporter> nodes = Util.make(this.getFlattenedChildren(), list -> list.addFirst(this));
+		if (!this.problems.isEmpty()) {
+			return true;
+		}
+
+		for (var child : children) {
+
+			if (child.hasProblems()) {
+				return true;
+			}
+
+		}
+
+		return false;
+
+	}
+
+	protected String indent(String line) {
+		return "  ".repeat(this.depth) + line;
+	}
+
+	protected String getExpandedPath() {
+		return this.depth > 0 ? "|-" + this.path : this.path;
+	}
+
+	protected List<String> getTreeReportInternal() {
+		return NeoApoliCommonConfig.INSTANCE.reporter.get().treeDisplay().formatReport(this);
+	}
+
+	protected List<Reporter> getFlattenedChildren() {
+
+		List<Reporter> result = new ObjectArrayList<>();
+
+		for (var child : this.children) {
+			result.add(child);
+			result.addAll(child.getFlattenedChildren());
+		}
+
+		return result;
+
+	}
+
+	public enum TreeDisplay {
+
+		COMPACT {
+
+			@Override
+			public List<String> formatReport(Reporter reporter) {
+
+				List<Reporter> nodes = Util.make(reporter.getFlattenedChildren(), list -> list.addFirst(reporter));
 				StringBuilder line = new StringBuilder();
 
 				for (var node : nodes) {
@@ -133,102 +184,63 @@ public class Reporter implements ProblemReporter {
 
 				}
 
-				if (!line.isEmpty()) {
-					lines.add(line.toString());
-				}
+				return !line.isEmpty()
+					? List.of(line.toString())
+					: List.of();
 
 			}
-			case EXPANDED -> {
 
-				String path = this.getPathForTree();
+		},
+
+		EXPANDED {
+
+			@Override
+			public List<String> formatReport(Reporter reporter) {
+
+				List<String> lines = new ObjectArrayList<>();
+
+				String path = reporter.getExpandedPath();
 				boolean prepend = false;
 
-				if (this.problems.size() == 1) {
+				if (reporter.problems.size() == 1) {
 
-					String problem = this.problems.iterator().next();
+					String problem = reporter.problems.iterator().next();
 
-					if (this.path.isEmpty()) {
+					if (reporter.path.isEmpty()) {
 						lines.add(problem);
 					}
 
 					else {
-						lines.add(this.indent(path + ": " + problem));
+						lines.add(reporter.indent(path + ": " + problem));
 					}
 
 				}
 
 				else {
 
-					for (var problem : this.problems) {
-						prepend |= lines.add(this.indent("    * " + problem));
+					for (var problem : reporter.problems) {
+						prepend |= lines.add(reporter.indent("    * " + problem));
 					}
 
 				}
 
-				for (var child : this.children) {
-					prepend |= lines.addAll(child.getTreeReport());
+				for (var child : reporter.children) {
+					prepend |= lines.addAll(child.getTreeReportInternal());
 				}
 
-				if (prepend && !this.path.isEmpty()) {
-					lines.addFirst(this.indent(path + ": "));
+				if (prepend && !reporter.path.isEmpty()) {
+					lines.addFirst(reporter.indent(path + ": "));
 				}
 
-			}
-		}
+				return lines;
 
-		return lines;
-
-	}
-
-	public String getReport() {
-		return String.join("\n", this.getTreeReport());
-	}
-
-	public boolean hasProblems() {
-
-		if (!this.problems.isEmpty()) {
-			return true;
-		}
-
-		for (var child : children) {
-
-			if (child.hasProblems()) {
-				return true;
 			}
 
-		}
-
-		return false;
-
-	}
-
-	protected String indent(String line) {
-		return "  ".repeat(this.depth) + line;
-	}
-
-	protected String getPathForTree() {
-		return this.depth > 0 ? "|-" + this.path : this.path;
-	}
-
-	protected List<Reporter> getFlattenedChildren() {
-
-		List<Reporter> result = new ObjectArrayList<>();
-
-		for (var child : this.children) {
-			result.add(child);
-			result.addAll(child.getFlattenedChildren());
-		}
-
-		return result;
-
-	}
-
-	public enum TreeDisplay {
-
-		COMPACT,
-		EXPANDED;
+		};
 
 		public static final Codec<TreeDisplay> CODEC = CodecUtil.enumType(TreeDisplay.class);
+
+		public abstract List<String> formatReport(Reporter reporter);
 
 	}
 
