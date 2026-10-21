@@ -11,9 +11,7 @@ import io.github.eggohito.neo_apoli.provider.custom.number.IntProvider;
 import io.github.eggohito.neo_apoli.provider.custom.vec3.Vec3Provider;
 import io.github.eggohito.neo_apoli.registry.provider.NeoApoliIntProviderTypes;
 import io.github.eggohito.neo_apoli.util.CachedBlock;
-import io.github.eggohito.neo_apoli.util.MapCodecUtil;
 import io.github.eggohito.neo_apoli.util.Shape;
-import io.github.eggohito.neo_apoli.util.StreamCodecUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -28,20 +26,20 @@ public record BlocksInRadiusIntProvider(Condition condition, Vec3Provider positi
 	public static final BlockContextParameter BLOCK_IN_RADIUS = new BlockContextParameter(NeoApoli.id("block_in_radius"));
 	public static final ContextValidator.Parameters CONDITION_PARAMETER_SET = new ContextValidator.Parameters.Builder().required(BLOCK_IN_RADIUS).build();
 
-	public static final MapCodec<BlocksInRadiusIntProvider> CODEC = MapCodecUtil.lazy(BlocksInRadiusIntProvider.class.getSimpleName(), () -> RecordCodecBuilder.mapCodec(instance -> instance.group(
+	public static final MapCodec<BlocksInRadiusIntProvider> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
 		Condition.CODEC.fieldOf("condition").forGetter(BlocksInRadiusIntProvider::condition),
 		Vec3Provider.CODEC.fieldOf("position").forGetter(BlocksInRadiusIntProvider::position),
 		Shape.CODEC.fieldOf("shape").forGetter(BlocksInRadiusIntProvider::shape),
 		IntProvider.CODEC.fieldOf("radius").forGetter(BlocksInRadiusIntProvider::radius)
-	).apply(instance, BlocksInRadiusIntProvider::new)));
+	).apply(instance, BlocksInRadiusIntProvider::new));
 
-	public static final StreamCodec<RegistryFriendlyByteBuf, BlocksInRadiusIntProvider> STREAM_CODEC = StreamCodecUtil.lazy(BlocksInRadiusIntProvider.class.getSimpleName(), () -> StreamCodec.composite(
+	public static final StreamCodec<RegistryFriendlyByteBuf, BlocksInRadiusIntProvider> STREAM_CODEC = StreamCodec.composite(
 		Condition.STREAM_CODEC, BlocksInRadiusIntProvider::condition,
 		Vec3Provider.STREAM_CODEC, BlocksInRadiusIntProvider::position,
 		Shape.STREAM_CODEC, BlocksInRadiusIntProvider::shape,
 		IntProvider.STREAM_CODEC, BlocksInRadiusIntProvider::radius,
 		BlocksInRadiusIntProvider::new
-	));
+	);
 
 	@Override
 	public @NotNull Type<?> getType() {

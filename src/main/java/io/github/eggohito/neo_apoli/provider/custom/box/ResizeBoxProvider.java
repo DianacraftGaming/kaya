@@ -5,8 +5,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.github.eggohito.neo_apoli.context.Context;
 import io.github.eggohito.neo_apoli.context.ContextValidator;
 import io.github.eggohito.neo_apoli.registry.provider.NeoApoliBoxProviderTypes;
-import io.github.eggohito.neo_apoli.util.MapCodecUtil;
-import io.github.eggohito.neo_apoli.util.StreamCodecUtil;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.phys.AABB;
@@ -16,16 +14,16 @@ import java.util.Optional;
 
 public record ResizeBoxProvider(BoxProvider box, BoxProvider offset) implements BoxProvider {
 
-	public static final MapCodec<ResizeBoxProvider> CODEC = MapCodecUtil.lazy(ResizeBoxProvider.class.getSimpleName(), () -> RecordCodecBuilder.mapCodec(instance -> instance.group(
+	public static final MapCodec<ResizeBoxProvider> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
 		BoxProvider.CODEC.fieldOf("box").forGetter(ResizeBoxProvider::box),
 		BoxProvider.CODEC.fieldOf("offset").forGetter(ResizeBoxProvider::offset)
-	).apply(instance, ResizeBoxProvider::new)));
+	).apply(instance, ResizeBoxProvider::new));
 
-	public static final StreamCodec<RegistryFriendlyByteBuf, ResizeBoxProvider> STREAM_CODEC = StreamCodecUtil.lazy(ResizeBoxProvider.class.getSimpleName(), () -> StreamCodec.composite(
+	public static final StreamCodec<RegistryFriendlyByteBuf, ResizeBoxProvider> STREAM_CODEC = StreamCodec.composite(
 		BoxProvider.STREAM_CODEC, ResizeBoxProvider::box,
 		BoxProvider.STREAM_CODEC, ResizeBoxProvider::offset,
 		ResizeBoxProvider::new
-	));
+	);
 
 	@Override
 	public @NotNull BoxProvider.Type<?> getType() {

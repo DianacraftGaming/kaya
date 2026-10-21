@@ -6,8 +6,6 @@ import io.github.eggohito.neo_apoli.context.Context;
 import io.github.eggohito.neo_apoli.context.ContextValidator;
 import io.github.eggohito.neo_apoli.provider.custom.vec3.Vec3Provider;
 import io.github.eggohito.neo_apoli.registry.provider.NeoApoliBoxProviderTypes;
-import io.github.eggohito.neo_apoli.util.MapCodecUtil;
-import io.github.eggohito.neo_apoli.util.StreamCodecUtil;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.phys.AABB;
@@ -18,16 +16,16 @@ import java.util.Optional;
 
 public record InflateBoxProvider(BoxProvider box, Vec3Provider vector) implements BoxProvider {
 
-	public static final MapCodec<InflateBoxProvider> CODEC = MapCodecUtil.lazy(InflateBoxProvider.class.getSimpleName(), () -> RecordCodecBuilder.mapCodec(instance -> instance.group(
+	public static final MapCodec<InflateBoxProvider> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
 		BoxProvider.CODEC.fieldOf("box").forGetter(InflateBoxProvider::box),
 		Vec3Provider.CODEC.fieldOf("vector").forGetter(InflateBoxProvider::vector)
-	).apply(instance, InflateBoxProvider::new)));
+	).apply(instance, InflateBoxProvider::new));
 
-	public static final StreamCodec<RegistryFriendlyByteBuf, InflateBoxProvider> STREAM_CODEC = StreamCodecUtil.lazy(InflateBoxProvider.class.getSimpleName(), () -> StreamCodec.composite(
+	public static final StreamCodec<RegistryFriendlyByteBuf, InflateBoxProvider> STREAM_CODEC = StreamCodec.composite(
 		BoxProvider.STREAM_CODEC, InflateBoxProvider::box,
 		Vec3Provider.STREAM_CODEC, InflateBoxProvider::vector,
 		InflateBoxProvider::new
-	));
+	);
 
 	@Override
 	public @NotNull BoxProvider.Type<?> getType() {
