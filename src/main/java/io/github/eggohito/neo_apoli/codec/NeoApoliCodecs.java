@@ -189,13 +189,7 @@ public class NeoApoliCodecs {
 
 	public static final Codec<ParsedArgument<EntitySelector>> ENTITY_SELECTOR = ParsedArgument.codec(EntityArgument.entity());
 
-	private static final Codec<Biome.Precipitation> UNVALIDATED_PRECIPITATION = CodecUtil.enumType(Biome.Precipitation.class);
-
-	public static final Codec<Biome.Precipitation> PRECIPITATION = UNVALIDATED_PRECIPITATION.validate(
-		precipitation -> precipitation == Biome.Precipitation.NONE
-			? DataResult.error(() -> "Precipitation \"" + precipitation.getSerializedName() + "\" is not allowed!")
-			: DataResult.success(precipitation)
-	);
+	public static final Codec<Biome.Precipitation> PRECIPITATION = CodecUtil.enumType(Biome.Precipitation.class);
 
 	public static final Codec<ParsedArgument<ItemPredicateArgument.Result>> ITEM_PREDICATE = ParsedArgument.codecWithSimpleContext(ItemPredicateArgument::itemPredicate);
 
