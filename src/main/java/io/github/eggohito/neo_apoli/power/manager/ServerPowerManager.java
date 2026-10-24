@@ -179,7 +179,7 @@ public class ServerPowerManager extends AbstractContentAndTagManager<PowerIdenti
 
 			try (Reporter.Scoped reporter = new Reporter.Scoped("{\"" + holder.id() + "\"}", problems -> LOGGER.error("Found problems while validating {}:\n{}", holder.id().asDisplayString(false), problems))) {
 
-				ContextValidator validator = new ContextValidator(ContextValidator.Parameters.EMPTY, reporter, MiscUtil.getLookupProvider(resources));
+				ContextValidator validator = new ContextValidator(ContextValidator.Parameters.EMPTY, reporter, MiscUtil.getRegistries(resources));
 				holder.validate(validator);
 
 				if (!reporter.hasProblems()) {

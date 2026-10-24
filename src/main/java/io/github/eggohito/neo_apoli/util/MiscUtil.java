@@ -194,7 +194,7 @@ public class MiscUtil {
 		return getEntityFromCollision(collisionContext) != null;
 	}
 
-	public static HolderLookup.Provider getLookupProvider(ReloadableServerResources resources) {
+	public static HolderLookup.Provider getRegistries(ReloadableServerResources resources) {
 		return ((ReloadableServerRegistriesAccessor.HolderAccessor) resources.fullRegistries()).getRegistries();
 	}
 
@@ -517,18 +517,6 @@ public class MiscUtil {
 
 		if (slot >= 0 && slot < container.getContainerSize()) {
 			return Optional.of(SlotAccess.forContainer(container, slot));
-		}
-
-		else {
-			return Optional.empty();
-		}
-
-	}
-
-	public static <A> Optional<HolderLookup.Provider> getLookupProvider(RegistryOps<A> ops) {
-
-		if (((RegistryOpsAccessor) ops).getLookupProvider() instanceof RegistryOps.HolderLookupAdapter adapter) {
-			return Optional.of(((RegistryOpsAccessor.HolderLookupAdapterAccessor) (Object) adapter).getLookupProvider());
 		}
 
 		else {

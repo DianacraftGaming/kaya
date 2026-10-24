@@ -6,8 +6,11 @@ import com.google.common.collect.ImmutableMap;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JavaOps;
+import io.github.eggohito.neo_apoli.mixin.access.RegistryOpsAccessor;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
+import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -17,6 +20,7 @@ import net.minecraft.util.StringRepresentable;
 
 import java.util.Collection;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.IntFunction;
@@ -153,6 +157,24 @@ public class CodecUtil {
 
 	public static <T, S extends Set<T>> Codec<S> nonEmptySet(Codec<S> codec) {
 		return nonEmptyCollection(codec, () -> "Set must have contents");
+	}
+
+	public static <T, O> Optional<HolderLookup.RegistryLookup<T>> getRegistry(RegistryOps<O> ops, ResourceKey<? extends Registry<T>> registryKey) {
+		return ops.owner(registryKey)
+			.filter(owner -> owner instanceof HolderLookup.RegistryLookup<T>)
+			.map(owner -> (HolderLookup.RegistryLookup<T>) owner);
+	}
+
+	public static <A> Optional<HolderLookup.Provider> getRegistries(RegistryOps<A> ops) {
+
+		if (((RegistryOpsAccessor) ops).getLookupProvider() instanceof RegistryOps.HolderLookupAdapter adapter) {
+			return Optional.of(((RegistryOpsAccessor.HolderLookupAdapterAccessor) (Object) adapter).getLookupProvider());
+		}
+
+		else {
+			return Optional.empty();
+		}
+
 	}
 
 }

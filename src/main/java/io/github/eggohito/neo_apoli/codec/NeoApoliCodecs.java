@@ -14,7 +14,7 @@ import io.github.eggohito.neo_apoli.power.PowerHolder;
 import io.github.eggohito.neo_apoli.power.manager.PowerManager;
 import io.github.eggohito.neo_apoli.registry.NeoApoliParticleTypes;
 import io.github.eggohito.neo_apoli.util.*;
-import io.github.eggohito.neo_apoli.util.tag.LazyTagLike;
+import io.github.eggohito.neo_apoli.util.tag.TagLike;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.commands.arguments.EntityArgument;
@@ -34,6 +34,7 @@ import net.minecraft.nbt.TagParser;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.TagEntry;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.TriState;
@@ -173,9 +174,11 @@ public class NeoApoliCodecs {
 
 	public static final Codec<Difficulty> DIFFICULTY = CodecUtil.enumType(Difficulty.class);
 
-	public static final Codec<LazyTagLike<EntityType<?>>> LAZY_ENTITY_TYPE_TAG_LIKE = LazyTagLike.createLazyCodec(BuiltInRegistries.ENTITY_TYPE);
+	public static final Codec<List<TagEntry>> TAG_ENTRIES = TagEntry.CODEC.listOf();
 
-	public static final Codec<LazyTagLike<PowerHolder<?>>> LAZY_POWER_TAG_LIKE = LazyTagLike.createLazyCodec(PowerManager.TAG_LOOKUP);
+	public static final Codec<TagLike<EntityType<?>>> ENTITY_TYPE_TAG_LIKE = TagLike.registryCodec(Registries.ENTITY_TYPE);
+
+	public static final Codec<TagLike<PowerHolder<?>>> POWER_TAG_LIKE = TagLike.codec(PowerManager.TAG_LOOKUP);
 
 	public static final Codec<SimpleParticleType> SIMPLE_PARTICLE = NeoApoliParticleTypes.CODEC.comapFlatMap(
 		particleType -> particleType instanceof SimpleParticleType simpleParticleType
