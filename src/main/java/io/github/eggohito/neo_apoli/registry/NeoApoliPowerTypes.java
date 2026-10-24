@@ -16,6 +16,10 @@ import java.util.function.UnaryOperator;
 
 public final class NeoApoliPowerTypes {
 
+	public static final ContextValidator.Parameters DEFAULT_PARAMETERS = new ContextValidator.Parameters.Builder()
+		.required(NeoApoliContextParameters.THIS_ENTITY)
+		.build();
+
 	public static final Power.Type<CallbackBlockBreakPower> CALLBACK_BLOCK_BREAK = registerInternal(
 		"callback/block/break",
 		CallbackBlockBreakPower.CODEC,
@@ -442,13 +446,7 @@ public final class NeoApoliPowerTypes {
 	}
 
 	public static <P extends Power> Power.Type<P> register(ResourceLocation id, MapCodec<P> mapCodec, StreamCodec<RegistryFriendlyByteBuf, P> streamCodec, UnaryOperator<ContextValidator.Parameters.Builder> parametersBuilder) {
-
-		ContextValidator.Parameters parameters = parametersBuilder.apply(new ContextValidator.Parameters.Builder())
-			.required(NeoApoliContextParameters.THIS_ENTITY)
-			.build();
-
-		return Registry.register(NeoApoliRegistries.POWER_TYPE, id, new Power.Type<>(parameters, mapCodec, streamCodec));
-
+		return Registry.register(NeoApoliRegistries.POWER_TYPE, id, new Power.Type<>(DEFAULT_PARAMETERS.merge(parametersBuilder.apply(new ContextValidator.Parameters.Builder()).build()), mapCodec, streamCodec));
 	}
 
 }

@@ -211,7 +211,7 @@ public final class GlobalPowerSetManager extends AbstractContentManager<Resource
 				GlobalPowerSet set = entry.getValue();
 
 				Reporter setReporter = reporter.forChild("{\"" + id + "\"}");
-				ContextValidator validator = new ContextValidator(ContextValidator.Parameters.INTENTIONALLY_EMPTY, setReporter).withResolver(MiscUtil.getLookupProvider(resources));
+				ContextValidator validator = new ContextValidator(ContextValidator.Parameters.EMPTY, setReporter).withResolver(MiscUtil.getLookupProvider(resources));
 
 				set.validate(validator);
 

@@ -98,7 +98,7 @@ public class ContextValidator {
 
 	public void validate(ContextUser user) {
 
-		if (parameters() == Parameters.INTENTIONALLY_EMPTY) {
+		if (parameters().isEmpty()) {
 			return;
 		}
 
@@ -114,7 +114,7 @@ public class ContextValidator {
 	@Getter
 	public static final class Parameters {
 
-		public static final Parameters INTENTIONALLY_EMPTY = new Parameters.Builder().build();
+		public static final Parameters EMPTY = new Parameters(Set.of(), Set.of());
 
 		private final Set<ContextParameter<?>> required;
 		private final Set<ContextParameter<?>> allowed;
@@ -142,6 +142,10 @@ public class ContextValidator {
 			return Arrays.stream(others).reduce(this, Parameters::merge);
 		}
 
+		public boolean isEmpty() {
+			return this == EMPTY;
+		}
+
 		public static final class Builder {
 
 			private final Set<ContextParameter<?>> required = new ObjectOpenHashSet<>();
@@ -149,8 +153,9 @@ public class ContextValidator {
 
 			public Parameters.Builder required(ContextParameter<?> parameter) {
 
-				this.optional.remove(parameter);
-				this.required.add(parameter);
+				if (!optional.contains(parameter)) {
+					this.required.add(parameter);
+				}
 
 				return this;
 
@@ -158,15 +163,18 @@ public class ContextValidator {
 
 			public Parameters.Builder optional(ContextParameter<?> parameter) {
 
-				this.required.remove(parameter);
-				this.optional.add(parameter);
+				if (!required.contains(parameter)) {
+					this.optional.add(parameter);
+				}
 
 				return this;
 
 			}
 
 			public Parameters build() {
-				return new Parameters(this.required, this.optional);
+				return required.isEmpty() && optional.isEmpty()
+					? EMPTY
+					: new Parameters(required, optional);
 			}
 
 		}

@@ -16,7 +16,6 @@ import io.github.eggohito.neo_apoli.event.PowerPreparation;
 import io.github.eggohito.neo_apoli.event.PowerReloadEvents;
 import io.github.eggohito.neo_apoli.event.ReloadableServerResourcesEvents;
 import io.github.eggohito.neo_apoli.network.packet.clientbound.ClientboundUpdatePowersPacket;
-import io.github.eggohito.neo_apoli.power.Power;
 import io.github.eggohito.neo_apoli.power.PowerHolder;
 import io.github.eggohito.neo_apoli.power.PowerIdentifier;
 import io.github.eggohito.neo_apoli.power.custom.MultiplePower;
@@ -180,10 +179,8 @@ public class ServerPowerManager extends AbstractContentAndTagManager<PowerIdenti
 
 			try (Reporter.Scoped reporter = new Reporter.Scoped("{\"" + holder.id() + "\"}", problems -> LOGGER.error("Found problems while validating {}:\n{}", holder.id().asDisplayString(false), problems))) {
 
-				Power power = holder.value();
-				ContextValidator validator = new ContextValidator(power.getType().parameters(), reporter, MiscUtil.getLookupProvider(resources));
-
-				power.validate(validator);
+				ContextValidator validator = new ContextValidator(ContextValidator.Parameters.EMPTY, reporter, MiscUtil.getLookupProvider(resources));
+				holder.validate(validator);
 
 				if (!reporter.hasProblems()) {
 					validatedContents.put(holder.id(), holder);
