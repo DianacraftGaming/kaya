@@ -34,7 +34,7 @@ public interface ContextParameter<T> extends StringDisplayable {
 
 	@Override
 	default String asDisplayString() {
-		return this.name().toString() + "(type: \"" + this.getType() + "\")";
+		return this.name().toString() + " (type: \"" + this.getType() + "\")";
 	}
 
 	@Accessors(fluent = true)
