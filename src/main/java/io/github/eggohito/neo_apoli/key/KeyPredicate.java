@@ -1,11 +1,10 @@
-package io.github.eggohito.neo_apoli.util.key;
+package io.github.eggohito.neo_apoli.key;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.github.eggohito.neo_apoli.context.Context;
 import io.github.eggohito.neo_apoli.context.ContextValidatable;
 import io.github.eggohito.neo_apoli.context.ContextValidator;
-import io.github.eggohito.neo_apoli.key.KeyState;
 import io.github.eggohito.neo_apoli.key.manager.KeyStateManager;
 import io.github.eggohito.neo_apoli.provider.custom.number.IntProvider;
 import io.github.eggohito.neo_apoli.provider.custom.number.ints.ConstantIntProvider;
