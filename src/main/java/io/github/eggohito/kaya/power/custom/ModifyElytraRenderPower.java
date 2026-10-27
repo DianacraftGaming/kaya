@@ -13,6 +13,7 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.item.equipment.EquipmentAsset;
 import net.minecraft.world.item.equipment.EquipmentAssets;
@@ -70,6 +71,10 @@ public record ModifyElytraRenderPower(Optional<Condition> activeCondition, Resou
 			return power.color()
 				.map(color -> color.intValue(context.forChild(".color")))
 				.map(DyedItemColor::new);
+		}
+
+		public boolean isActive(Entity holder) {
+			return this.isActive(this.createHolderContext(holder));
 		}
 
 	}

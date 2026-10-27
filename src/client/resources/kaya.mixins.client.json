@@ -22,6 +22,7 @@
 		"impl.power.custom.crafting_recipe.MinecraftMixin",
 		"impl.power.custom.crafting_recipe.RecipeButtonMixin",
 		"impl.power.custom.modify_air_speed.LocalPlayerMixin",
+		"impl.power.custom.modify_elytra_render.CapeLayerMixin",
 		"impl.power.custom.modify_elytra_render.WingsLayerMixin",
 		"impl.power.custom.modify_glowing_other.EntityMixin",
 		"impl.power.custom.modify_glowing_other.MinecraftMixin",
