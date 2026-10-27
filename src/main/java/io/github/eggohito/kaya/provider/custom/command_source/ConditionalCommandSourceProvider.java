@@ -1,0 +1,22 @@
+package io.github.eggohito.kaya.provider.custom.command_source;
+
+import com.mojang.serialization.MapCodec;
+import io.github.eggohito.kaya.condition.Condition;
+import io.github.eggohito.kaya.provider.ConditionalValueProvider;
+import io.github.eggohito.kaya.registry.provider.KayaCommandSourceProviderTypes;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import org.jetbrains.annotations.NotNull;
+
+public record ConditionalCommandSourceProvider(Condition condition, CommandSourceProvider onTrue, CommandSourceProvider onFalse) implements CommandSourceProvider, ConditionalValueProvider<CommandSourceStack, CommandSourceProvider> {
+
+	public static final MapCodec<ConditionalCommandSourceProvider> CODEC = ConditionalValueProvider.mapCodec(CommandSourceProvider.CODEC, ConditionalCommandSourceProvider::new);
+	public static final StreamCodec<RegistryFriendlyByteBuf, ConditionalCommandSourceProvider> STREAM_CODEC = ConditionalValueProvider.streamCodec(CommandSourceProvider.STREAM_CODEC, ConditionalCommandSourceProvider::new);
+
+	@Override
+	public CommandSourceProvider.@NotNull Type<?> getType() {
+		return KayaCommandSourceProviderTypes.CONDITIONAL;
+	}
+
+}

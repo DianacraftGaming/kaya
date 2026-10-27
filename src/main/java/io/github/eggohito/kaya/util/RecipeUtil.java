@@ -1,0 +1,40 @@
+package io.github.eggohito.kaya.util;
+
+import com.mojang.serialization.DataResult;
+import io.github.eggohito.kaya.recipe.PowerCraftingRecipe;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.item.crafting.CraftingRecipe;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import org.jetbrains.annotations.NotNull;
+
+public class RecipeUtil {
+
+	public static <R extends Recipe<?>> DataResult<R> validateRecipe(@NotNull R recipe) {
+		return switch (recipe) {
+			case PowerCraftingRecipe powerCraftingRecipe ->
+				createInternalOnlyError(powerCraftingRecipe.getSerializer());
+			default ->
+				DataResult.success(recipe);
+		};
+	}
+
+	public static <R extends Recipe<?>> DataResult<CraftingRecipe> validateCraftingRecipe(@NotNull R recipe) {
+		return validateRecipe(recipe).flatMap(innerRecipe -> {
+
+			if (innerRecipe instanceof CraftingRecipe craftingRecipe) {
+				return DataResult.success(craftingRecipe);
+			}
+
+			else {
+				return DataResult.error(() -> "Recipe is not a crafting recipe!");
+			}
+
+		});
+	}
+
+	private static <R> DataResult<R> createInternalOnlyError(RecipeSerializer<?> serializer) {
+		return DataResult.error(() -> "Recipe type \"" + RegistryUtil.getId(BuiltInRegistries.RECIPE_SERIALIZER, serializer) + "\" is for internal use only!");
+	}
+
+}

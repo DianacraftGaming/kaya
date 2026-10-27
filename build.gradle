@@ -13,10 +13,6 @@ repositories {
 	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
 	// for more information about repositories.
 	maven {
-		name = "ParchmentMC"
-		url = "https://maven.parchmentmc.org"
-	}
-	maven {
 		name = "QuiltMC"
 		url = "https://maven.quiltmc.org/repository/release"
 	}
@@ -33,23 +29,32 @@ repositories {
 loom {
 
 	splitEnvironmentSourceSets()
-	accessWidenerPath = file("src/main/resources/neo-apoli.classtweaker")
+	accessWidenerPath = file("src/main/resources/kaya.classtweaker")
 
 	mods {
-		"neo-apoli" {
+		"kaya" {
 			sourceSet sourceSets.main
 			sourceSet sourceSets.client
 		}
+	}
+
+	runs {
+
+		client {
+			runDirectory = file("run/client")
+		}
+
+		server {
+			runDirectory = file("run/server")
+		}
+
 	}
 
 }
 
 dependencies {
 
-	mappings loom.layered() {
-		officialMojangMappings()
-		parchment("org.parchmentmc.data:parchment-1.21.5:2025.06.15@zip")
-	}
+	mappings loom.officialMojangMappings()
 
 	// To change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"

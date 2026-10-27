@@ -1,0 +1,30 @@
+package io.github.eggohito.kaya.provider.custom.number.ints;
+
+import com.mojang.serialization.MapCodec;
+import io.github.eggohito.kaya.context.Context;
+import io.github.eggohito.kaya.provider.custom.number.IntProvider;
+import io.github.eggohito.kaya.provider.custom.number.MultiIntProvider;
+import io.github.eggohito.kaya.registry.provider.KayaIntProviderTypes;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+import java.util.Optional;
+
+public record MaxIntProvider(List<IntProvider> values) implements MultiIntProvider {
+
+	public static final MapCodec<MaxIntProvider> CODEC = MultiIntProvider.mapCodec(MaxIntProvider::new);
+	public static final StreamCodec<RegistryFriendlyByteBuf, MaxIntProvider> STREAM_CODEC = MultiIntProvider.streamCodec(MaxIntProvider::new);
+
+	@Override
+	public @NotNull IntProvider.Type<?> getType() {
+		return KayaIntProviderTypes.MAX;
+	}
+
+	@Override
+	public Optional<Integer> getValue(Context context) {
+		 return this.iterateAndProcess(context, Math::max);
+	}
+
+}

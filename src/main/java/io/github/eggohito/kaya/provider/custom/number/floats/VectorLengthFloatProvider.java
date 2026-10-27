@@ -1,0 +1,46 @@
+package io.github.eggohito.kaya.provider.custom.number.floats;
+
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import io.github.eggohito.kaya.context.Context;
+import io.github.eggohito.kaya.context.ContextValidator;
+import io.github.eggohito.kaya.provider.custom.number.FloatProvider;
+import io.github.eggohito.kaya.provider.custom.vec3.Vec3Provider;
+import io.github.eggohito.kaya.registry.provider.KayaFloatProviderTypes;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Optional;
+
+public record VectorLengthFloatProvider(Vec3Provider vector) implements FloatProvider {
+
+	public static final MapCodec<VectorLengthFloatProvider> CODEC = RecordCodecBuilder.mapCodec(instance -> instance
+		.group(Vec3Provider.CODEC.fieldOf("vector").forGetter(VectorLengthFloatProvider::vector))
+		.apply(instance, VectorLengthFloatProvider::new)
+	);
+
+	public static final StreamCodec<RegistryFriendlyByteBuf, VectorLengthFloatProvider> STREAM_CODEC = StreamCodec.composite(
+		Vec3Provider.STREAM_CODEC, VectorLengthFloatProvider::vector,
+		VectorLengthFloatProvider::new
+	);
+
+	@Override
+	public @NotNull FloatProvider.Type<?> getType() {
+		return KayaFloatProviderTypes.VECTOR_LENGTH;
+	}
+
+	@Override
+	public Optional<Float> getValue(Context context) {
+		return vector()
+			.getValue(context.forChild(".vector"))
+			.map(vector -> (float) vector.length());
+	}
+
+	@Override
+	public void validate(ContextValidator validator) {
+		FloatProvider.super.validate(validator);
+		vector().validate(validator.forChild(".vector"));
+	}
+
+}

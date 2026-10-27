@@ -1,9 +1,9 @@
 {
 	"schemaVersion": 1,
-	"id": "neo-apoli",
+	"id": "kaya",
 	"version": "${version}",
-	"name": "Neo-Apoli",
-	"description": "A rewrite of https://github.com/apace100/apoli that provides more functionality and flexibility ",
+	"name": "Kaya",
+	"description": "Empower your game with Kaya, a library for adding data-driven powers to entities.",
 	"authors": [
 		"eggohito"
 	],
@@ -11,24 +11,24 @@
 		"sources": "https://github.com/eggohito/neo-apoli"
 	},
 	"license": "MIT",
-	"icon": "assets/neo-apoli/icon.png",
+	"icon": "assets/kaya/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"io.github.eggohito.neo_apoli.NeoApoli"
+			"io.github.eggohito.kaya.Kaya"
 		],
 		"client": [
-			"io.github.eggohito.neo_apoli.NeoApoliClient"
+			"io.github.eggohito.kaya.KayaClient"
 		],
 		"modmenu": [
-			"io.github.eggohito.neo_apoli.client.integration.ModMenuIntegration"
+			"io.github.eggohito.kaya.client.integration.ModMenuIntegration"
 		]
 	},
 	"mixins": [
-		"neo-apoli.mixins.json",
+		"kaya.mixins.json",
 		{
 			"environment": "client",
-			"config": "neo-apoli.mixins.client.json"
+			"config": "kaya.mixins.client.json"
 		}
 	],
 	"depends": {
@@ -41,5 +41,5 @@
 	"suggests": {
 		"modmenu": ">={modmenu}"
 	},
-	"accessWidener": "neo-apoli.classtweaker"
+	"accessWidener": "kaya.classtweaker"
 }

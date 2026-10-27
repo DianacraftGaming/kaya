@@ -1,0 +1,28 @@
+package io.github.eggohito.kaya.client.util;
+
+import com.mojang.serialization.DataResult;
+import io.github.eggohito.kaya.hud.Sprite;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.Material;
+import org.jetbrains.annotations.NotNull;
+
+public class SpriteMaterial extends Material {
+
+	public SpriteMaterial(Sprite sprite) {
+		super(sprite.atlas(), sprite.id());
+	}
+
+	/**
+	 * 	Use {@link #spriteAsResult()} to <b>safely</b> get the actual atlas sprite.
+	 */
+	@Deprecated
+	@Override
+	public @NotNull TextureAtlasSprite sprite() {
+		return super.sprite();
+	}
+
+	public DataResult<TextureAtlasSprite> spriteAsResult() {
+		return TextureUtil.getSprite(this.atlasLocation(), this.texture());
+	}
+
+}
