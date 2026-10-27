@@ -8,7 +8,8 @@
 		"eggohito"
 	],
 	"contact": {
-		"sources": "https://github.com/eggomods/kaya"
+		"sources": "https://github.com/eggomods/kaya",
+		"issues": "https://github.com/eggomods/kaya/issues"
 	},
 	"license": "MIT",
 	"icon": "assets/kaya/icon.png",
