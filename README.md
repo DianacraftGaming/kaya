@@ -1,6 +1,6 @@
 #   Kaya
 
-Kaya (shortened form of 'kakayahan', which is the tagalog translation for 'capability'/'ability') is a library that allows attaching "powers" to entities via data packs. This is the successor of the [Apoli](https://github.com/apace100/apoli) project by Apace.
+Kaya (shortened form of 'kakayahan', which is the tagalog translation for 'capability'/'ability') is a library that allows attaching "powers" to entities via data packs. This is a rewrite and the successor of the [Apoli](https://github.com/apace100/apoli) project by Apace.
 
 
 ##  Features
