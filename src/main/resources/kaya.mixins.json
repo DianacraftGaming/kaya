@@ -36,8 +36,6 @@
 		"impl.event.modifier_order_callback.MappedRegistryMixin",
 		"impl.event.reloadable_server_resources.ReloadableServerResourcesMixin",
 		"impl.event.tags_built.TagLoaderMixin",
-		"impl.misc.better_codec_errors.DataResultMixin",
-		"impl.misc.better_codec_errors.EitherCodecMixin",
 		"impl.misc.internal_recipes.RecipeManagerMixin",
 		"impl.misc.moving.EntityMixin",
 		"impl.misc.placeholder_identifier.ResourceLocationMixin",
