@@ -3,7 +3,7 @@
 	"id": "kaya",
 	"version": "${version}",
 	"name": "Kaya",
-	"description": "Empower your game with Kaya, a library for adding data-driven powers to entities.",
+	"description": "Empower your game with this library that adds data-driven powers to entities via data packs.",
 	"authors": [
 		"eggohito"
 	],
