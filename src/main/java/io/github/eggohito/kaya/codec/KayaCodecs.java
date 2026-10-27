@@ -6,7 +6,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.Dynamic;
 import io.github.eggohito.kaya.Kaya;
-import io.github.eggohito.kaya.command.argument.PowerArgument;
 import io.github.eggohito.kaya.mixin.access.BlockInputAccessor;
 import io.github.eggohito.kaya.mixin.access.TagParserAccessor;
 import io.github.eggohito.kaya.power.PowerHolder;
@@ -170,7 +169,7 @@ public class KayaCodecs {
 
 	public static final Codec<Difficulty> DIFFICULTY = CodecUtil.enumType(Difficulty.class);
 
-	public static final Codec<List<TagEntry>> TAG_ENTRIES = TagEntry.CODEC.listOf();
+	public static final Codec<List<TagEntry>> COMPACT_TAG_ENTRIES = ExtraCodecs.nonEmptyList(ExtraCodecs.compactListCodec(TagEntry.CODEC));
 
 	public static final Codec<TagLike<EntityType<?>>> ENTITY_TYPE_TAG_LIKE = TagLike.registryCodec(Registries.ENTITY_TYPE);
 
@@ -196,8 +195,6 @@ public class KayaCodecs {
 	public static final Codec<ParsedArgument<ItemPredicateArgument.Result>> ITEM_PREDICATE = ParsedArgument.codecWithSimpleContext(ItemPredicateArgument::itemPredicate);
 
 	public static final Codec<SoundSource> SOUND_SOURCE = CodecUtil.enumType(SoundSource.class);
-
-	public static final Codec<ParsedArgument<PowerArgument.Result>> POWER_OR_TAG_ARGUMENT = ParsedArgument.codec(PowerArgument.powerOrTag());
 
 	public static final Codec<ResourceKey<Biome>> BIOME_KEY = ResourceKey.codec(Registries.BIOME);
 

@@ -77,8 +77,14 @@ public final class TagLike<E> implements ContextValidatable {
 	}
 
 	public static <T> TagLike<T> of(List<TagEntry> entries, TagEntry.Lookup<T> lookup) {
+
+		if (entries.isEmpty()) {
+			return empty();
+		}
+
 		ImmutableList<TagEntry> copy = ImmutableList.copyOf(entries);
 		return new TagLike<>(copy, () -> toElementsWithPartial(copy, lookup));
+
 	}
 
 	public static <T> TagLike<T> ofRegistry(List<TagEntry> entries, HolderLookup.RegistryLookup<T> registry) {
@@ -114,7 +120,7 @@ public final class TagLike<E> implements ContextValidatable {
 					}
 
 					else {
-						return KayaCodecs.TAG_ENTRIES.decode(ops, input)
+						return KayaCodecs.COMPACT_TAG_ENTRIES.decode(ops, input)
 							.map(pair -> pair
 								.mapFirst(entries -> of(entries, lookup)));
 					}
@@ -129,14 +135,14 @@ public final class TagLike<E> implements ContextValidatable {
 
 			@Override
 			public <O> DataResult<O> encode(TagLike<T> input, DynamicOps<O> ops, O prefix) {
-				return KayaCodecs.TAG_ENTRIES.encode(input.entries, ops, prefix);
+				return KayaCodecs.COMPACT_TAG_ENTRIES.encode(input.entries, ops, prefix);
 			}
 
 		};
 	}
 
 	public static <T> Codec<TagLike<T>> codec(TagEntry.Lookup<T> lookup) {
-		return KayaCodecs.TAG_ENTRIES.xmap(entries -> of(entries, lookup), tag -> tag.entries);
+		return KayaCodecs.COMPACT_TAG_ENTRIES.xmap(entries -> of(entries, lookup), tag -> tag.entries);
 	}
 
 	private static <T> DataResult<ImmutableList<T>> toElementsWithPartial(List<TagEntry> entries, TagEntry.Lookup<T> lookup) {
